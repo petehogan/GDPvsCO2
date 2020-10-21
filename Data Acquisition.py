@@ -27,3 +27,10 @@ concat
 plt.scatter(concat['GDP-USD (Million US$ (2005))'],concat['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
 plt.xlabel('GDP'); plt.ylabel('CO2');
 plt.show()
+#clear relationship
+plt.scatter(concat['Population (People)'],concat['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
+plt.xlabel('population');plt.ylabel('co2');
+plt.title('pop vs co2')
+plt.show
+
+#similar relationship between co2 and population..
