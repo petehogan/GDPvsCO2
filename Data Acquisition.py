@@ -13,11 +13,11 @@ CO2_country  = CO2_country.dropna()
 
 #import gdp, drop rows with more than one NAN value
 GDP_full = pd.read_csv('CAIT Country Socio-Economic Data.csv')
-GDP_full = GDP.dropna(thresh = 5)
+GDP_full = GDP_full.dropna(thresh = 5)
 
 #consider year 1960 and above
 CO2 = CO2_country[CO2_country['Year'] > 1959].dropna()
-GDP = GDP[GDP['Year'] > 1959]
+GDP = GDP_full[GDP_full['Year'] > 1959]
 
 # let concactenate the two so we can plot....
 # select country, year, gdp-usd 2005, total co2 from gdp_Trim and co2_trim where co2_trim.year = gdp_trim.year
