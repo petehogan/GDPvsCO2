@@ -19,3 +19,11 @@ GDP = GDP.dropna(thresh = 5)
 #consider year 1960 and above
 CO2_trim = CO2_country[CO2_country['Year'] > 1959].dropna()
 GDP_trim = GDP[GDP['Year'] > 1959]
+# let concactenate the two so we can plot....
+# select country, year, gdp-usd 2005, total co2 from gdp_Trim and co2_trim where co2_trim.year = gdp_trim.year
+# and co2_trim.country = gdp_trim.country
+concat = pd.merge(CO2,GDP,on = ['Year','Country'])
+concat
+plt.scatter(concat['GDP-USD (Million US$ (2005))'],concat['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
+plt.xlabel('GDP'); plt.ylabel('CO2');
+plt.show()
