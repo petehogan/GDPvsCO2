@@ -1,4 +1,6 @@
 #now lets load some healthcare expenditure data
+
+#from here https://apps.who.int/nha/database/ViewData/Indicators/en
 HEALTH = pd.read_csv('NHA.csv')
 afghan_health= HEALTH[HEALTH['Countries'] == 'Afghanistan']
 temp = afghan_health.T.drop(['Countries','Indicators',]); temp = temp.drop(temp.index[0]);
