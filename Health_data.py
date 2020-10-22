@@ -69,7 +69,7 @@ plt.xlabel('afghan healthcare $ in millions USD');plt.ylabel('afghan total co2')
 plt.show()
 concat3
 
-#linear regression with sklearn
+#linear regression with sklearn TODO!!!! THIS DOESNT WORK!!! Maybe some unit-issues, not sure though
 X = DataFrame(np.c_[concat3['Population (People)'],concat3['GDP-USD (Million US$ (2005))'],concat3['Healthcare Expenditure in Millions of USD']],
                    columns =['Population','GDP','Healthcare Expenditure'])
 
