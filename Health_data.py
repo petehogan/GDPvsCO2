@@ -1,6 +1,3 @@
-#now lets load some healthcare expenditure data
-
-#from here https://apps.who.int/nha/database/ViewData/Indicators/en
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -11,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
+##note, use the data files from this repository, not the CAIT website, these are cleaned a bit(removed non ascii chars)
 CO2_sub_sect = pd.read_csv('CAIT Country CO2 Emissions-Energy Sub-Sector.csv')
 CO2_sub_sect.dropna()
 
@@ -20,11 +18,11 @@ CO2_country  = CO2_country.dropna()
 
 #import gdp, drop rows with more than one NAN value
 GDP_full = pd.read_csv('CAIT Country Socio-Economic Data.csv')
-GDP_full = GDP.dropna(thresh = 5)
+GDP_full = GDP_full.dropna(thresh = 5)
 
 #consider year 1960 and above
 CO2 = CO2_country[CO2_country['Year'] > 1959].dropna()
-GDP = GDP[GDP['Year'] > 1959]
+GDP = GDP_full[GDP_full['Year'] > 1959]
 
 # let concactenate the two so we can plot....
 # select country, year, gdp-usd 2005, total co2 from gdp_Trim and co2_trim where co2_trim.year = gdp_trim.year
@@ -34,11 +32,15 @@ plt.scatter(concat['GDP-USD (Million US$ (2005))'],concat['Total CO2 Emissions E
 plt.xlabel('GDP'); plt.ylabel('CO2');
 plt.title('GDP vs CO2 Emissions')
 plt.show()
+concat
+print(GDP_full)
 #Clear linear relationship between co2 and gdp, what about others?
 plt.scatter(concat['Population (People)'],concat['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
 plt.xlabel('population');plt.ylabel('co2');
 plt.title('pop vs co2')
 plt.show
+
+
 
 #check just afghanistan
 concat2 = pd.merge(CO2_sub_sect,GDP, on = ['Year','Country'])
@@ -46,6 +48,7 @@ afghan = concat[concat['Country'] == 'Afghanistan']
 plt.scatter(afghan['GDP-USD (Million US$ (2005))'],afghan['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
 plt.xlabel('afghan gdp');plt.ylabel('afghan co2');
 plt.title('afghan gdp vs co2')
+plt.show()
 concat2
 
 #now lets load some healthcare expenditure data
@@ -67,22 +70,19 @@ plt.scatter(concat3['Healthcare Expenditure in Millions of USD'],
             concat3['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
 plt.xlabel('afghan healthcare $ in millions USD');plt.ylabel('afghan total co2');
 plt.show()
-concat3
 
 #linear regression with sklearn TODO!!!! THIS DOESNT WORK!!! Maybe some unit-issues, not sure though
 X = DataFrame(np.c_[concat3['Population (People)'],concat3['GDP-USD (Million US$ (2005))'],concat3['Healthcare Expenditure in Millions of USD']],
                    columns =['Population','GDP','Healthcare Expenditure'])
-
+X2=X.to_numpy()
 Y = concat3['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'].values
-Y
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.5)
+X_train, X_test, Y_train, Y_test = train_test_split(X2, Y, test_size = 0.5)
+print(X_train.shape, X_test.shape, Y_train.shape, Y_test.shape)
+plt.plot(X_train[:,1], Y_train, 'k.', X_test[:,1], Y_test, 'r.')
+plt.show()
 lr = LinearRegression()
 lr.fit(X_train, Y_train)
 print('\n')
 print('SCORE FOR Population, GDP, Healthcare Expenditure')
 print('----------------------')
 print(lr.score(X_test, Y_test))
-#plt.scatter(X_test,Y_test)
-Y_pred = lr.predict(X_test)
-Y_pred
-
