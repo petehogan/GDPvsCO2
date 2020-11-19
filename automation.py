@@ -1,3 +1,4 @@
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -76,6 +77,7 @@ for i in range(countries_fromhealth.size):
             countries_fromhealth[i] = countries[j]
             ismatch = True
     if(ismatch == False):
-        HEALTH = HEALTH.drop([HEALTH['Countries'] == countries_fromhealth[i]])
+        HEALTH.drop(HEALTH.index[HEALTH['Countries']==countries_fromhealth[i]], axis=0,inplace=True)
         print('dropped')
+        
     
