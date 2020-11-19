@@ -68,24 +68,45 @@ HEALTH = HEALTH.sort_values(by=['Countries'])
 countries_fromhealth = HEALTH['Countries'].values
 #print(countries_fromhealth.size)
 num_matches= 0
+dropped = 0
 ismatch = False
 for i in range(countries_fromhealth.size):
     ismatch = False
     for j in range(countries.size):
         if(countries[j] == countries_fromhealth[i]):
             num_matches = num_matches +1
-            countries_fromhealth[i] = countries[j]
+            #countries_fromhealth[i] = countries[j]
             ismatch = True
     if(ismatch == False):
         HEALTH.drop(HEALTH.index[HEALTH['Countries']==countries_fromhealth[i]], axis=0,inplace=True)
-        print('dropped')
-        
+        dropped = dropped + 1
+
+
+num_matches= 0
+dropped = 0
+ismatch = False
+for i in range(countries.size):
+    ismatch = False
+    for j in range(countries_fromhealth.size):
+        if(countries[i] == countries_fromhealth[j]):
+            num_matches = num_matches +1
+            #countries_fromhealth[i] = countries[j]
+            ismatch = True
+    if(ismatch == False):
+        del country_dict[countries[i]]
+        dropped = dropped +1
+
+dropped
+
+countries = np.array([*country_dict])
+countries = np.array(sorted(countries))
+
+
     
 
     
 ##add healthcare data in loop...
-print(countries.size)
-for i in range(1):
+for i in range(countries.size):
     temp_country = concat[concat['Country'] == countries[i]]
     temp_health = HEALTH[HEALTH['Countries'] == countries[i]]
     to_bepush = temp_health.T.drop(['Countries', 'Indicators',]); to_bepush = to_bepush.drop(to_bepush.index[0])
@@ -99,10 +120,16 @@ for i in range(1):
     concat_push = pd.merge(temp_country,to_bepush, on =['Year','Country'])
     country_dict[countries[i]] = concat_push
 
- 
 #try to plot!
 country_dict['Afghanistan']
 plt.scatter(country_dict['Afghanistan']['Healthcare Expenditure in Millions of USD'],
             country_dict['Afghanistan']['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
 plt.xlabel('afghan healthcare $ in millions USD');plt.ylabel('afghan total co2');
 plt.show()
+
+country_dict['United States']
+plt.scatter(country_dict['United States']['Healthcare Expenditure in Millions of USD'],
+            country_dict['United States']['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
+plt.xlabel('us healthcare $ in millions USD');plt.ylabel('us total co2');
+plt.show()
+print(countries.size)
