@@ -85,7 +85,7 @@ for i in range(countries_fromhealth.size):
     
 ##add healthcare data in loop...
 print(countries.size)
-for i in range(20):
+for i in range(1):
     temp_country = concat[concat['Country'] == countries[i]]
     temp_health = HEALTH[HEALTH['Countries'] == countries[i]]
     to_bepush = temp_health.T.drop(['Countries', 'Indicators',]); to_bepush = to_bepush.drop(to_bepush.index[0])
@@ -98,3 +98,11 @@ for i in range(20):
     to_bepush['Year'] = pd.to_numeric(to_bepush['Year'])
     concat_push = pd.merge(temp_country,to_bepush, on =['Year','Country'])
     country_dict[countries[i]] = concat_push
+
+ 
+#try to plot!
+country_dict['Afghanistan']
+plt.scatter(country_dict['Afghanistan']['Healthcare Expenditure in Millions of USD'],
+            country_dict['Afghanistan']['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'])
+plt.xlabel('afghan healthcare $ in millions USD');plt.ylabel('afghan total co2');
+plt.show()
