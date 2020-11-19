@@ -81,3 +81,20 @@ for i in range(countries_fromhealth.size):
         print('dropped')
         
     
+
+    
+##add healthcare data in loop...
+print(countries.size)
+for i in range(20):
+    temp_country = concat[concat['Country'] == countries[i]]
+    temp_health = HEALTH[HEALTH['Countries'] == countries[i]]
+    to_bepush = temp_health.T.drop(['Countries', 'Indicators',]); to_bepush = to_bepush.drop(to_bepush.index[0])
+    columns = [];
+    for j in range(18):
+        columns.append(countries[i])
+    to_bepush['Country'] = columns
+    to_bepush.reset_index(level = 0, inplace = True)
+    to_bepush.columns = ['Year','Healthcare Expenditure in Millions of USD', 'Country']
+    to_bepush['Year'] = pd.to_numeric(to_bepush['Year'])
+    concat_push = pd.merge(temp_country,to_bepush, on =['Year','Country'])
+    country_dict[countries[i]] = concat_push
