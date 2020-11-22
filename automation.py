@@ -133,3 +133,23 @@ plt.scatter(country_dict['United States']['Healthcare Expenditure in Millions of
 plt.xlabel('us healthcare $ in millions USD');plt.ylabel('us total co2');
 plt.show()
 print(countries.size)
+
+
+
+##### try to do lr for all of the countries in a loop and print scores... TODO THIS DOESNT PARSE NON NUMERIC DATA UGH!!!!!!!!!!!
+scores_dict = {}
+print(countries[1])
+for i in range(2):
+    temp_df = country_dict[countries[i]]
+    temp_df['Year'] = pd.to_numeric(temp_df['Year'])
+    X = DataFrame(np.c_[temp_df['Population (People)'],temp_df['GDP-USD (Million US$ (2005))'],temp_df['Healthcare Expenditure in Millions of USD']],
+                   columns =['Population','GDP','Healthcare Expenditure'])
+    X2=X.to_numpy()
+    Y = temp_df['Total CO2 Emissions Excluding Land-Use Change and Forestry (MtCO2)'].values
+    X_train, X_test, Y_train, Y_test = train_test_split(X2, Y, test_size = 0.5)
+    #print(X_train.shape, X_test.shape, Y_train.shape, Y_test.shape)
+    #plt.plot(X_train[:,1], Y_train, 'k.', X_test[:,1], Y_test, 'r.')
+    #plt.show()
+    lr = LinearRegression(fit_intercept=False)
+    lr.fit(X_train, Y_train)
+    print(countries[i], lr.score(X_test, Y_test))
